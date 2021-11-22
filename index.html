@@ -1,0 +1,106 @@
+<!-- This example is from Alan Villalobos-->
+<!DOCTYPE html>
+
+  <head>
+    <meta charset="utf-8">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-composite-projections/1.0.2/d3-composite-projections.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <!-- <script type="text/javascript">
+      var width = 960,
+          height = 500;
+
+
+
+
+      // Map setup
+      var projection = d3.geoAlbersUsa().scale(1300);
+      var svg = d3.select("body")
+          .append('svg')
+          .attr('width', width)
+          .attr('height', height);
+
+      svg.append("g")
+        .attr("d", projection);
+      // var path = d3.geo.path()
+      //     .projection(projection);
+
+      var data = [10, 2, 3, 54, 102]
+
+      var scale = d3.scaleLinear()
+          .domain(d3.extent(data))
+          .range([height, 0]);
+
+      var x_axis = d3.axisBottom()
+          .scale(scale);
+
+    </script> -->
+    <style>
+
+    </style>
+    <script type="text/javascript">
+      var width = 950, height = 500;
+      var svg = d3.select('#map')
+          .append('svg')
+          .attr("width",width)
+          .attr("height",height)
+          .append("g");
+      
+      d3.json("us.json", (err, data) => {
+        var projection = d3.geoMercator()
+          .translate([ width / 2, height / 2])
+          .scale(100);
+
+        var path = d3.geoPath()
+          .projection(projection);
+        var states = topojson.feature(data, data.objects.states).features
+        
+        svg.selectAll(".state")
+          .data(states)
+          .enter()
+          .append("path")
+          .attr("class", "state")
+          .attr("d", path);
+      });
+
+      
+    </script>
+  </head>
+
+  <body>
+    <div id="map"></div>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-composite-projections/1.0.2/d3-composite-projections.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script type="text/javascript">
+      // Massive inspiration from this video: https://www.youtube.com/watch?v=G-VggTK-Wlg
+      var width = 950, height = 500;
+      var svg = d3.select('#map')
+          .append('svg')
+          .attr("width",width)
+          .attr("height",height)
+          .append("g");
+      
+      d3.json("us.json", (err, data) => {
+        var projection = d3.geoAlbersUsa()
+          .translate([ width / 2, height / 2])
+          .scale(800); // Can change this depending on how zoomed we want the map
+
+        var path = d3.geoPath()
+          .projection(projection);
+        var states = topojson.feature(data, data.objects.states).features
+        
+        svg.selectAll(".state")
+          .data(states)
+          .enter()
+          .append("path")
+          .attr("class", "state")
+          .attr("d", path);
+      });
+
+      // Now, we can plot the actual fast food restaurants themselves.
+
+      
+    </script>
+  </body>
+</html>
