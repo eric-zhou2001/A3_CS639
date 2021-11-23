@@ -6,6 +6,7 @@
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-composite-projections/1.0.2/d3-composite-projections.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript">
       var width = 950, height = 500;
       var svg = d3.select('#map')
@@ -45,16 +46,27 @@
     <!--Standard HTML-->
     <div class="filter-container">
       <h2>Filter</h2>
-      <select name='Select Fastfood' id='select-fastfood'>
-        <option value='mcdonald'>McDonald</option>
-        <option value='sonic'>Sonic</option>
-      </select>
+      <div class="select-container">
+        <h3>Select Fastfood Restaurant</h3>
+        <select name='Select Fastfood' id='select-fastfood'>
+          <option value='mcdonald'>McDonald</option>
+          <option value='sonic'>Sonic</option>
+        </select>
+      </div>
+      <div class="select-container">
+        <h3>Select State</h3>
+        <select name='Select State' id='select-state'>
+          <option value='all the states'>States</option>
+        </select>
+      </div>
     </div>
 
     <div class="flex-container">
       <div class='background-container'>
         <h2>Background and Motivations</h3>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor modi sint optio aperiam unde placeat veritatis sequi rem odio necessitatibus? Debitis omnis soluta repellat placeat ullam at consequatur corporis sequi.</p>
+        <p>Fast-food has exploded in popularity throughout the US. Popular chains like McDonald, Sonic, and Burger King have seemingly expanded their reach through every state. However, certain fast-food restaurants only appear in specific regions. One example of this is Culvers, a popular Midwestern burger joint which does not appear in the Northeast. Another example is In-N-Out, which dominates the West. We want to better understand how this distribution changes depending on their region. </p>
+        <p>Using a map is the most effective visualization method for displaying geographic data. Thus, it is a natural choice for displaying the locations of each fast-food chain in the United States. The user will also be able to include and exclude each chain from the map so that they can more easily compare geographic data between individual restaurants.</p>
+        <p>Select different states by either clicking on them or using the menu! Additionally, filter out for your favorite restaurant by using the other menu.</p>
       </div>
     </div>
 
@@ -79,17 +91,31 @@
         var path = d3.geoPath()
           .projection(projection);
         var states = topojson.feature(data, data.objects.states).features
-        console.log(data)
         svg.selectAll(".state")
           .data(states)
           .enter()
           .append("path")
           .attr("class", data => {
-            return `${data.id} state`; // Maybe do stuff state dependent? That's a little hard
+            return `state`; // Maybe do stuff state dependent? That's a little hard
+          })
+          .attr('id', data => {
+            return data.id;
+          })
+          .on("mouseenter", data => {
+            $(`#${data.id}`).addClass('highlight-border-state');
+          })
+          .on('mouseleave', data => {
+            $(`#${data.id}`).removeClass('highlight-border-state');
+          })
+          .on('click', data => {
+            // do some fun stuff here where we select all things in this state
+            if ($('.clicked').length) {
+              $('.clicked').removeClass('clicked');
+            }
+            $(`#${data.id}`).removeClass('highlight-border-state').addClass('clicked');
           })
           .attr("d", path);
       });
-
       // Now, we can plot the actual fast food restaurants themselves.
 
       

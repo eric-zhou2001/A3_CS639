@@ -21,3 +21,9 @@
 #select-fastfood {
     width: 20em;
 }
+
+.highlight-border-state,
+.clicked {
+    transition: fill .5s;
+    fill: black;
+}
