@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+.state {
+    fill:#BEBEBE;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: center;
+}
+
+* {
+    font-family: 'Roboto';
+}
+
+.filter-container,
+.background-container {
+    margin-left: 20em;
+    margin-right: 20em;
+}
+
+#select-fastfood {
+    width: 20em;
+}

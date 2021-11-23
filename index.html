@@ -2,42 +2,10 @@
 <!DOCTYPE html>
 
   <head>
-    <meta charset="utf-8">
+    <link rel='stylesheet' href="./styles.css">
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-composite-projections/1.0.2/d3-composite-projections.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
-    <!-- <script type="text/javascript">
-      var width = 960,
-          height = 500;
-
-
-
-
-      // Map setup
-      var projection = d3.geoAlbersUsa().scale(1300);
-      var svg = d3.select("body")
-          .append('svg')
-          .attr('width', width)
-          .attr('height', height);
-
-      svg.append("g")
-        .attr("d", projection);
-      // var path = d3.geo.path()
-      //     .projection(projection);
-
-      var data = [10, 2, 3, 54, 102]
-
-      var scale = d3.scaleLinear()
-          .domain(d3.extent(data))
-          .range([height, 0]);
-
-      var x_axis = d3.axisBottom()
-          .scale(scale);
-
-    </script> -->
-    <style>
-
-    </style>
     <script type="text/javascript">
       var width = 950, height = 500;
       var svg = d3.select('#map')
@@ -68,7 +36,29 @@
   </head>
 
   <body>
-    <div id="map"></div>
+    <h1 style='text-align:center;'>Fast Food Distribution Across the USA</h1>
+    <div class="flex-container">
+      <!--This is where the map is loaded in-->
+      <div id="map"></div>
+    </div>
+
+    <!--Standard HTML-->
+    <div class="filter-container">
+      <h2>Filter</h2>
+      <select name='Select Fastfood' id='select-fastfood'>
+        <option value='mcdonald'>McDonald</option>
+        <option value='sonic'>Sonic</option>
+      </select>
+    </div>
+
+    <div class="flex-container">
+      <div class='background-container'>
+        <h2>Background and Motivations</h3>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor modi sint optio aperiam unde placeat veritatis sequi rem odio necessitatibus? Debitis omnis soluta repellat placeat ullam at consequatur corporis sequi.</p>
+      </div>
+    </div>
+
+    <!--This is the D3 part-->
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-composite-projections/1.0.2/d3-composite-projections.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
@@ -89,12 +79,14 @@
         var path = d3.geoPath()
           .projection(projection);
         var states = topojson.feature(data, data.objects.states).features
-        
+        console.log(data)
         svg.selectAll(".state")
           .data(states)
           .enter()
           .append("path")
-          .attr("class", "state")
+          .attr("class", data => {
+            return `${data.id} state`; // Maybe do stuff state dependent? That's a little hard
+          })
           .attr("d", path);
       });
 
