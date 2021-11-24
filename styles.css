@@ -18,7 +18,7 @@
     margin-right: 20em;
 }
 
-#select-fastfood {
+#select-fastfood, #select-state {
     width: 20em;
 }
 
@@ -26,4 +26,62 @@
 .clicked {
     transition: fill .5s;
     fill: black;
+}
+
+/* Restuarants:
+{   
+    "Arby's", x
+    'Burger King', x
+    'Dairy Queen', x 
+    "Domino's Pizza", x
+    'Jack in the Box', x
+    "McDonald's", x
+    'Pizza Hut', x
+    'Subway',
+    'Taco Bell', x
+    "Wendy's" 
+} */
+
+.PizzaHut {
+    fill: brown;
+}
+
+.Subway {
+    fill: green;
+}
+
+.Wendys {
+    fill: aqua;
+}
+
+.McDonalds {
+    fill:yellow;
+}
+
+.DominosPizza {
+    fill: white;
+}
+
+.TacoBell {
+    fill: purple;
+}
+
+.Arbys {
+    fill: red;
+}
+
+.DairyQueen {
+    fill: blue;
+}
+
+.JackintheBox {
+    fill: pink;
+}
+
+.BurgerKing {
+    fill:orange;
+}
+
+.hidden {
+    display: none;
 }
