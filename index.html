@@ -7,70 +7,52 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-composite-projections/1.0.2/d3-composite-projections.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script type="text/javascript">
-      var width = 950, height = 500;
-      var svg = d3.select('#map')
-          .append('svg')
-          .attr("width",width)
-          .attr("height",height)
-          .append("g");
-      
-      d3.json("us.json", (err, data) => {
-        var projection = d3.geoMercator()
-          .translate([ width / 2, height / 2])
-          .scale(100);
-
-        var path = d3.geoPath()
-          .projection(projection);
-        var states = topojson.feature(data, data.objects.states).features
-        
-        svg.selectAll(".state")
-          .data(states)
-          .enter()
-          .append("path")
-          .attr("class", "state")
-          .attr("d", path);
-      });
-
-      
-    </script>
   </head>
 
   <body>
-    <h1 style='text-align:center;'>Fast Food Distribution Across the USA</h1>
+    <h1 style='text-align:center;'>Fast-Food Distribution Across the USA</h1>
     <div class="flex-container">
       <!--This is where the map is loaded in-->
       <div id="map"></div>
+      <div class="filter-container">
+        <h2>Filter</h2>
+        <div class="select-container">
+          <h3>Select Fastfood Restaurant</h3>
+          <input type="checkbox" onclick='toggleRestaurant(this)' id="arby-select" name="arby-select" value="Arby's">
+          <label for="arby-select">Arby's</label><br>
+          <input type="checkbox" onclick='toggleRestaurant(this)' id="bk-select" name="bk-select" value="Burger King">
+          <label for="bk-select">Burger King</label><br>
+          <input type="checkbox" onclick='toggleRestaurant(this)' id='dq-select' name='dq-select' value='Dairy Queen'>
+          <label for='dq-select'>Dairy Queen</label><br>
+          <input type="checkbox" onclick='toggleRestaurant(this)' id="dp-select" name="dp-select" value="Domino's Pizza">
+          <label for="dp-select">Domino's Pizza</label><br>
+          <input type="checkbox" onclick='toggleRestaurant(this)' id="jitb-select" name="jitb-select" value="Jack in the Box">
+          <label for="jitb-select">Jack in the Box</label><br>
+          <input type="checkbox" onclick='toggleRestaurant(this)' id="arby-select" name="arby-select" value="Arby">
+          <label for="arby-select">Arby's</label><br>
+          <input type="checkbox" onclick='toggleRestaurant(this)' id="mcdonald-select" name="mcdonald-select" value="McDonald's">
+          <label for="mcdonald-select">McDonald's</label><br>
+          <input type="checkbox" onclick='toggleRestaurant(this)' id="pizzahut-select" name="pizzahut-select" value="Pizza Hut">
+          <label for="pizzahut-select">Pizza Hut</label><br>
+          <input type="checkbox" onclick='toggleRestaurant(this)' id="subway-select" name="subway-select" value="Subway">
+          <label for="subway-select">Subway</label><br>
+          <input type="checkbox" onclick='toggleRestaurant(this)' id="tb-select" name="tb-select" value="Taco Bell">
+          <label for="tb-select">Taco Bell</label><br>
+          <input type="checkbox" onclick='toggleRestaurant(this)' id="wendy-select" name="wendy-select" value="Wendy's">
+          <label for="wendy-select">Wendy's</label><br>
+          <button onclick='resetRestaurants()' class='reset-btn'>Reset</button>
+        </div>
+        <div class="select-container">
+          <h3>Select State</h3>
+          <select name='Select State' id='select-state'>
+            <option value='all the states'>States</option>
+          </select>
+          <button class='reset-btn'>Reset</button>
+        </div>
+      </div>
     </div>
 
     <!--Standard HTML-->
-    <div class="filter-container">
-      <h2>Filter</h2>
-      <div class="select-container">
-        <h3>Select Fastfood Restaurant</h3>
-        <select name='Select Fastfood' id='select-fastfood'>
-          <option value='arby'>Arby's</option>
-          <option value='burgerking'>Burger King</option>
-          <option value='dairyqueen'>Dairy Queen</option>
-          <option value='dominopizza'>Domino's Pizza</option>
-          <option value='jackinthebox'>Jack in the Box</option>
-          <option value='mcdonald'>McDonald</option>
-          <option value='pizzahut'>Pizza Hut</option>
-          <option value='subway'>Subway</option>
-          <option value='tacobell'>Taco Bell</option>
-          <option value='wendys'>Wendy's</option>
-        </select>
-        <button>Reset</button>
-      </div>
-      <div class="select-container">
-        <h3>Select State</h3>
-        <select name='Select State' id='select-state'>
-          <option value='all the states'>States</option>
-        </select>
-        <button>Reset</button>
-      </div>
-    </div>
-
     <div class="flex-container">
       <div class='background-container'>
         <h2>Background and Motivations</h3>
@@ -85,6 +67,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-composite-projections/1.0.2/d3-composite-projections.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
     <script type="text/javascript">
+      var restaurants = [];
+      $(document).ready(() => {
+        // check if checkboxes are active from previous state
+        $(':checkbox').map((i, d) => {
+          if ($(d).is(':checked')) {
+            toggleRestaurant(d); // send jquery element
+          }
+          toggleOpacity(d);
+        });
+      });
       // Massive inspiration from this video: https://www.youtube.com/watch?v=G-VggTK-Wlg
       var width = 950, height = 500;
       var svg = d3.select('#map')
@@ -143,6 +135,44 @@
             return coords[1]
           });
       });
+
+      // Actual JavaScript/non-D3 stuff
+      // Restaurant helper functions
+      function toggleRestaurant(restaurant) {
+        restaurant = $(restaurant);
+        //.is(":checked") is used to check for the checkbox state
+        // .val() is to check for the value of the checkbox
+        if (restaurant.is(":checked")) {
+          restaurants.push(restaurant.val());
+          // make all the restaurants NOT in the restaurant array opacity less
+        } else {
+          var last = restaurants.pop(restaurant.val());
+          if (restaurants) {
+            // Just make the last popped one disappear
+          } else {
+            // make all restaurants appear
+          }
+        }
+      }
+
+      function resetRestaurants() {
+          // go into class and reset all that are not selected
+          $(':checkbox').map((i, d) => {
+            $(d).prop('checked', false)
+          });
+          restaurants = [];
+      }
+
+      // Pass in element
+      function toggleOpacity(e) {
+        e = $(e); // convert standard DOM to JQuery
+        if (e.is(':checked')) {
+          // need to add opacity to the dots rather than the JQUERY element
+          e.addClass('opacity');
+        } else {
+          e.removeClass('opacity');
+        }
+      }
     </script>
   </body>
 </html>

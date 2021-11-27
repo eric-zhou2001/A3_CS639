@@ -12,14 +12,21 @@
     font-family: 'Roboto';
 }
 
-.filter-container,
+.reset-btn {
+    margin-top: .5em;
+}
+
+.filter-container {
+    margin-right: 10em;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding-left: 1em;
+    background-color: #F5F5F5;
+    width: 20em;
+}
+
 .background-container {
     margin-left: 20em;
     margin-right: 20em;
-}
-
-#select-fastfood, #select-state {
-    width: 20em;
 }
 
 .highlight-border-state,
