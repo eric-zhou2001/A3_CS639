@@ -28,8 +28,6 @@
           <label for="dp-select">Domino's Pizza</label><br>
           <input type="checkbox" onclick='toggleRestaurant(this)' id="jitb-select" name="jitb-select" value="Jack in the Box">
           <label for="jitb-select">Jack in the Box</label><br>
-          <input type="checkbox" onclick='toggleRestaurant(this)' id="arby-select" name="arby-select" value="Arby">
-          <label for="arby-select">Arby's</label><br>
           <input type="checkbox" onclick='toggleRestaurant(this)' id="mcdonald-select" name="mcdonald-select" value="McDonald's">
           <label for="mcdonald-select">McDonald's</label><br>
           <input type="checkbox" onclick='toggleRestaurant(this)' id="pizzahut-select" name="pizzahut-select" value="Pizza Hut">
@@ -147,12 +145,8 @@
           // make all the restaurants NOT in the restaurant array opacity less
         } else {
           var last = restaurants.pop(restaurant.val());
-          if (restaurants) {
-            // Just make the last popped one disappear
-          } else {
-            // make all restaurants appear
-          }
         }
+        toggleOpacity();
       }
 
       function resetRestaurants() {
@@ -161,17 +155,34 @@
             $(d).prop('checked', false)
           });
           restaurants = [];
+          toggleOpacity();
       }
 
-      // Pass in element
-      function toggleOpacity(e) {
-        e = $(e); // convert standard DOM to JQuery
-        if (e.is(':checked')) {
-          // need to add opacity to the dots rather than the JQUERY element
-          e.addClass('opacity');
-        } else {
-          e.removeClass('opacity');
-        }
+      // Adds opacity class
+      function toggleOpacity() {
+        const restaurantMark = $(".restaurant").toArray();
+        // restaurantMark.forEach(mark => {
+        //   // Reset everything
+        //   mark = $(mark);
+        //   mark.removeClass('opacity');
+        // });
+        restaurantMark.forEach(mark => {
+          var storedRestaurant = false;
+          mark = $(mark);
+          restaurants.forEach(rest => {
+            // Add depending if stored restaurant is stored in array
+            if (mark.hasClass(rest.replaceAll('\'', '').replaceAll(' ', ''))) {
+              storedRestaurant = true;
+            }
+          });
+          if (!storedRestaurant) {
+            mark.addClass('opacity-empty');
+            mark.removeClass('opacity-full');
+          } else {
+            mark.removeClass('opacity-empty');
+            mark.addClass('opacity-full');
+          }
+        });
       }
     </script>
   </body>

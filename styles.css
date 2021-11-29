@@ -35,6 +35,16 @@
     fill: black;
 }
 
+.opacity-full {
+    transition: opacity .5s;
+    opacity: 1;
+}
+
+.opacity-empty {
+    transition: opacity .5s;
+    opacity: .001;
+}
+
 /* Restuarants:
 {   
     "Arby's", x
