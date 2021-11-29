@@ -3,6 +3,7 @@
 
   <head>
     <link rel='stylesheet' href="./styles.css">
+    <title>Fast-Food Distribution</title>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-composite-projections/1.0.2/d3-composite-projections.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
@@ -18,34 +19,32 @@
         <h2>Filter</h2>
         <div class="select-container">
           <h3>Select Fastfood Restaurant</h3>
-          <input type="checkbox" onclick='toggleRestaurant(this)' id="arby-select" name="arby-select" value="Arby's">
-          <label for="arby-select">Arby's</label><br>
-          <input type="checkbox" onclick='toggleRestaurant(this)' id="bk-select" name="bk-select" value="Burger King">
-          <label for="bk-select">Burger King</label><br>
-          <input type="checkbox" onclick='toggleRestaurant(this)' id='dq-select' name='dq-select' value='Dairy Queen'>
-          <label for='dq-select'>Dairy Queen</label><br>
-          <input type="checkbox" onclick='toggleRestaurant(this)' id="dp-select" name="dp-select" value="Domino's Pizza">
-          <label for="dp-select">Domino's Pizza</label><br>
-          <input type="checkbox" onclick='toggleRestaurant(this)' id="jitb-select" name="jitb-select" value="Jack in the Box">
-          <label for="jitb-select">Jack in the Box</label><br>
-          <input type="checkbox" onclick='toggleRestaurant(this)' id="mcdonald-select" name="mcdonald-select" value="McDonald's">
-          <label for="mcdonald-select">McDonald's</label><br>
-          <input type="checkbox" onclick='toggleRestaurant(this)' id="pizzahut-select" name="pizzahut-select" value="Pizza Hut">
-          <label for="pizzahut-select">Pizza Hut</label><br>
-          <input type="checkbox" onclick='toggleRestaurant(this)' id="subway-select" name="subway-select" value="Subway">
-          <label for="subway-select">Subway</label><br>
-          <input type="checkbox" onclick='toggleRestaurant(this)' id="tb-select" name="tb-select" value="Taco Bell">
-          <label for="tb-select">Taco Bell</label><br>
-          <input type="checkbox" onclick='toggleRestaurant(this)' id="wendy-select" name="wendy-select" value="Wendy's">
-          <label for="wendy-select">Wendy's</label><br>
+          <input type="checkbox" onclick='toggleRestaurant(this)' class='restaurant-select' id="arby-select" name="arby-select" value="Arby's">
+          <label for="arby-select">Arby's</label><div class="circle" style='background:red;'></div><br>
+          <input type="checkbox" onclick='toggleRestaurant(this)' class='restaurant-select' id="bk-select" name="bk-select" value="Burger King">
+          <label for="bk-select">Burger King</label><div class="circle" style='background:orange;'></div><br>
+          <input type="checkbox" onclick='toggleRestaurant(this)' class='restaurant-select' id='dq-select' name='dq-select' value='Dairy Queen'>
+          <label for='dq-select'>Dairy Queen</label><div class="circle" style='background:blue;'></div><br>
+          <input type="checkbox" onclick='toggleRestaurant(this)' class='restaurant-select' id="dp-select" name="dp-select" value="Domino's Pizza">
+          <label for="dp-select">Domino's Pizza</label><div class="circle" style='background:white;'></div><br>
+          <input type="checkbox" onclick='toggleRestaurant(this)' class='restaurant-select' id="jitb-select" name="jitb-select" value="Jack in the Box">
+          <label for="jitb-select">Jack in the Box</label><div class="circle" style='background:pink;'></div><br>
+          <input type="checkbox" onclick='toggleRestaurant(this)' class='restaurant-select' id="mcdonald-select" name="mcdonald-select" value="McDonald's">
+          <label for="mcdonald-select">McDonald's</label><div class="circle" style='background:yellow;'></div><br>
+          <input type="checkbox" onclick='toggleRestaurant(this)' class='restaurant-select' id="pizzahut-select" name="pizzahut-select" value="Pizza Hut">
+          <label for="pizzahut-select">Pizza Hut</label><div class="circle" style='background:brown;'></div><br>
+          <input type="checkbox" onclick='toggleRestaurant(this)' class='restaurant-select' id="subway-select" name="subway-select" value="Subway">
+          <label for="subway-select">Subway</label><div class="circle" style='background:green;'></div><br>
+          <input type="checkbox" onclick='toggleRestaurant(this)' class='restaurant-select' id="tb-select" name="tb-select" value="Taco Bell">
+          <label for="tb-select">Taco Bell</label><div class="circle" style='background:purple;'></div><br>
+          <input type="checkbox" onclick='toggleRestaurant(this)' class='restaurant-select' id="wendy-select" name="wendy-select" value="Wendy's">
+          <label for="wendy-select">Wendy's</label><div class="circle" style='background:aqua;'></div><br>
           <button onclick='resetRestaurants()' class='reset-btn'>Reset</button>
         </div>
         <div class="select-container">
           <h3>Select State</h3>
-          <select name='Select State' id='select-state'>
-            <option value='all the states'>States</option>
-          </select>
-          <button class='reset-btn'>Reset</button>
+          
+          <button onclick='resetStates()' class='reset-btn'>Reset</button>
         </div>
       </div>
     </div>
@@ -68,7 +67,7 @@
       var restaurants = [];
       $(document).ready(() => {
         // check if checkboxes are active from previous state
-        $(':checkbox').map((i, d) => {
+        $('.restaurant-select:checkbox').map((i, d) => {
           if ($(d).is(':checked')) {
             toggleRestaurant(d); // send jquery element
           }
@@ -183,6 +182,12 @@
             mark.addClass('opacity-full');
           }
         });
+      }
+
+      // State helper functions
+      var states = [];
+      function resetStates() {
+
       }
     </script>
   </body>

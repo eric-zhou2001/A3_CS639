@@ -102,3 +102,11 @@
 .hidden {
     display: none;
 }
+
+.circle {
+    display: inline-block;
+    margin-left: .5em;
+    width: 1em;
+    height: 1em;
+    border-radius: 25px;
+}
