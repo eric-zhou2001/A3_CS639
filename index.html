@@ -303,7 +303,17 @@
           restaurants.push(restaurant.val());
           // make all the restaurants NOT in the restaurant array opacity less
         } else {
-          var last = restaurants.pop(restaurant.val());
+          var i = 0;
+          var count = 0;
+          // Is there seriously no damn better way of doing this??
+          restaurants.forEach(r => {
+            if (r === restaurant.val()) {
+              i = count;
+            } else {
+              count += 1;
+            }
+          });
+          var last = restaurants.splice(i,1);
         }
         toggleOpacity();
       }
@@ -340,7 +350,6 @@
             s.addClass('opacity-full');
           });
         }
-        
         restaurantMark.forEach(mark => {
           var storedRestaurant = false;
           mark = $(mark);
@@ -376,8 +385,6 @@
         if (states[0] && states[1] && states[0] === states[1]) {
           alert("Please select two different states!");
         } else {
-          // Toggle opacity of states
-          // Toggle opacity of restaurants in the toggleOpacity method
           toggleOpacity();
         }
       }
